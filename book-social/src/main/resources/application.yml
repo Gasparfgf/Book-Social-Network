@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+  servlet: #to upload files
+    multipart:
+      max-file-size: 50MB
+
+#API
+springdoc:
+  default-produces-media-type: application/json
+
+server:
+  servlet:
+    context-path: /api/v1/ #instead of specifying the port and using /api/v1/ everytime

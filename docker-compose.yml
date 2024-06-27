@@ -1,0 +1,33 @@
+services:
+  #Database
+  postgres:
+    container_name: postgres-sql-bsn
+    image: postgres
+    environment:
+      POSTGRES_USER: gasparfgf
+      POSTGRES_PASSWORD: isaesm
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: book_social_network
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - spring-book
+    restart: unless-stopped #restart the container when stopped
+  #to test the project's generated email during development,
+  #with an easy-to-use web interface that runs on your machine built on top of Node.js.
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
+    ports:
+      - 1080:1080 #web-app
+      - 1025:1025
+
+networks:
+  spring-book:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local

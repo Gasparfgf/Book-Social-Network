@@ -1,0 +1,33 @@
+spring:
+  #Database (provided by docker-compose file)
+  datasource: # java-database-compiler:db_type://host:db_port/db_name
+    url: jdbc:postgresql://localhost:5432/book_social_network
+    username: gasparfgf
+    password: isaesm
+    driver-class-name: org.postgresql.Driver
+  #Java Persistence API - the management of relational data
+  jpa:
+    hibernate: #what to do when starting the app
+      ddl-auto: update
+    show-sql: false #don't allow hibernate to show the sql requests on the logs (false is the default value)
+    properties:
+      hibernate:
+        format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+  #mail configuration (valid for different providers)
+  mail:
+    host: localhost #to be change when deploying
+    port: 1025
+    username: something #user and password not required
+    password: something
+    properties:
+      mail:
+        smtp:
+          trust: "*" #not recomended for production
+        auth: true
+        starttls:
+          enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000

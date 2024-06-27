@@ -1,0 +1,44 @@
+BOOK SOCIAL NETWORK
+
+
+I - Diagram
+Book Management
+- Users can create, update and delete books.
+- Users can archive books they no longer want to share but want to keep a record of 
+- Each book should have attributes like title, author, genre, description, etc.
+- Implement CRUD operations for books on both the back and the front-end.
+
+Book Borrowing
+- Users can borrow a book.
+- Track the status of each book (available, archieved, borrowed)
+- Implement a mechanism to prevent multiple users from borrowing the same book simultaneously
+
+API
+Dependencies used : Spring web (we want to create a restful api), Spring Data (JPA - because we have a database in order to process data), Spring security (because we want to implement security based on jwt), Thymeleaf (because we want to send emails with html, css), Validation (because we want to validate the inputs or requests in our api), PostgreSQL drive (because we need to connect to our postgres database), Lombok (because we don't want to allways generate getters and setters), Java Mail Sender (because we want to send emails), OpenApi, JJWT et spingdoc (because we want to documentate our app).
+
+II - Create docker-compose.yml file
+Set our services
+
+III - Using profiles (application.yml): in ressources you can create a new property configuration file - application-dev.yml. This file will extend the application.yml file and override the properties specified.
+
+OBS: When creating an app, first you need to setup the security. Why? Because it's important to define permissions in order to know who does what.
+
+IV - Spring security
+JWT:
+- User:
+	1. request (get/post/patch/delete)
+	2. filter chain -> there's many filters, but one will be activated - the 'OncePerRequestFilter (JwtAuthenticationFilter)' which verifies the Token existence:
+		a) token exists = false -> do nothing and pass to next filter or send an error message.
+		b) token exists = true -> JwtService
+	3. JwtService validate the token:
+		a) token not valid -> send to the User: 'TokenInvalidException'
+		b) token valid -> UserDetailService.
+	4. UserDetailService: recover the user information (by email/id):
+		a) user not found -> send to user 'UserNotFoundException'.
+		b) user found -> SecurityContextHolder.
+	5. SecurityContextHolder: contains the detail of the authenticated user - SecurityContext -> Authorization (principal = user, credentials = user informations, authorities = user roles) -> DispatcherServlet.
+	6. DispatcherServlet -> selects which controller to be activated.
+	7. Controller -> send the response to the user (after making all calculations, etc).
+		
+V - Create User Entity
+When creating User Entity, allways try to implement UserDetails interface, Spring Security will create an object
