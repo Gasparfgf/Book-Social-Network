@@ -40,5 +40,7 @@ JWT:
 	6. DispatcherServlet -> selects which controller to be activated.
 	7. Controller -> send the response to the user (after making all calculations, etc).
 		
-V - Create User Entity
+V - Create: User Entity -> Token class -> SecurityConfig
 When creating User Entity, allways try to implement UserDetails interface, Spring Security will create an object
+
+JwtService - generates, decode, extract information from the token, etc.
