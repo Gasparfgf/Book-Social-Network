@@ -21,6 +21,7 @@ import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE
 @Service
 @RequiredArgsConstructor
 public class EmailSendService {
+
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
@@ -33,12 +34,9 @@ public class EmailSendService {
             String activationCode,
             String subject
             ) throws MessagingException {
-        String templateName;
-        if(emailTemplateName == null){
-            templateName = "confirm-email";
-        }else{
-            templateName = emailTemplateName.name();
-        }
+
+        String templateName = (emailTemplateName == null) ?
+                "confirm-email" : emailTemplateName.name();
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
