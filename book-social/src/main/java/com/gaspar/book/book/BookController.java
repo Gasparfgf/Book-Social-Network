@@ -5,10 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +15,16 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Integer> saveBook(
             @Valid @RequestBody BookRequest bookRequest,
             Authentication connectedUser
             ){
         return ResponseEntity.ok(bookService.save(bookRequest, connectedUser));
+    }
+
+    @GetMapping("{book-id}")
+    public ResponseEntity<BookResponse> findBookById(@PathVariable("book-id") Integer bookId){
+        return ResponseEntity.ok(bookService.findById(bookId));
     }
 }
