@@ -2,6 +2,7 @@ package com.gaspar.book.feedback;
 
 import com.gaspar.book.book.Book;
 import com.gaspar.book.common.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class FeedBack extends BaseEntity {
 
+    @Column
     private Double note;
     private String comment;
 

@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
 @SuperBuilder //Builder don't allow the sharing properties with child classes
 @NoArgsConstructor
 @AllArgsConstructor
