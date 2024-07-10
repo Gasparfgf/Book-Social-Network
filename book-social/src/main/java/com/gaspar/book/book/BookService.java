@@ -1,6 +1,7 @@
 package com.gaspar.book.book;
 
 import com.gaspar.book.user.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,8 @@ public class BookService {
     }
 
     public BookResponse findById(Integer bookId) {
+        return bookRepository.findById(bookId)
+                .map(bookMapper::toBookResponse)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID::" + bookId));
     }
 }
