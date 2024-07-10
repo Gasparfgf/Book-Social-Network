@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableJpaAuditing //To allow AuditingEntityListener in the User
+@EnableJpaAuditing(auditorAwareRef = "auditorAware") //To allow AuditingEntityListener in the User
 @EnableAsync //to not block the user through the email that must be sent
 public class BookSocialApplication {
 
