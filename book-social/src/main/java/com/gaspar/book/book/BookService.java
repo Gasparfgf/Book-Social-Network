@@ -2,9 +2,11 @@ package com.gaspar.book.book;
 
 import com.gaspar.book.common.PageResponse;
 import com.gaspar.book.exceptions.OperationNotPermittedException.OperationNotPermittedException;
+import com.gaspar.book.file.FileStorageService;
 import com.gaspar.book.history.BookTransactionHistory;
 import com.gaspar.book.history.BookTransactionalHistoryRepository;
 import com.gaspar.book.user.User;
+import jakarta.mail.Multipart;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +29,7 @@ import java.util.Objects;
 public class BookService {
 
     private final BookTransactionalHistoryRepository transactionalHistoryRepository;
+    private final FileStorageService fileStorageService;
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -175,5 +179,31 @@ public class BookService {
                 .orElseThrow(() -> new OperationNotPermittedException("You did not borrowed this book."));
         bookTransactionHistory.setReturned(true);
         return transactionalHistoryRepository.save(bookTransactionHistory).getId();
+    }
+
+    public Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID:: "+ bookId));
+        if (book.isArchived() || !book.isShareable()) {
+            throw new OperationNotPermittedException("The request book can not be borrowed");
+        }
+        User user = ((User) connectedUser.getPrincipal());
+        if (Objects.equals(book.getOwner().getBooks(), user.getId())) {
+            throw new OperationNotPermittedException("You can not borrow or return your own book.");
+        }
+        BookTransactionHistory bookTransactionHistory = transactionalHistoryRepository.findByBookIdAndOwnerId(bookId, user.getId())
+                .orElseThrow(() -> new OperationNotPermittedException("The book is not returned yet. You cannot approve its return"));
+        bookTransactionHistory.setReturnApproved(true);
+        return transactionalHistoryRepository.save(bookTransactionHistory).getId();
+    }
+
+    public void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Integer bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with the ID:: "+ bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        var bookCover = fileStorageService.saveFile(file, user.getId());
+        book.setBookCover(bookCover);
+        bookRepository.save(book);
+
     }
 }

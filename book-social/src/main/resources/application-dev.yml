@@ -41,6 +41,10 @@ application: #customer
   mailing:
     frontend:
       activation-url: http://localhost:4200/activate-account
+  file:
+    upload:
+      photos-output-path: ./uploads #le dossier qui contiendra les fichiers téléchargés
+
 
 server:
   port: 8080
