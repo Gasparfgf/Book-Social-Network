@@ -1,4 +1,4 @@
-package com.gaspar.book.exceptions.OperationNotPermittedException;
+package com.gaspar.book.exceptions;
 
 public class OperationNotPermittedException extends RuntimeException {
     public OperationNotPermittedException(String msg) {

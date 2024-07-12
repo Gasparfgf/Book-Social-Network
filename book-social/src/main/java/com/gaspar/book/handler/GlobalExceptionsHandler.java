@@ -1,4 +1,4 @@
-package com.gaspar.book.exceptions;
+package com.gaspar.book.handler;
 
 import com.gaspar.book.exceptions.OperationNotPermittedException.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.gaspar.book.exceptions.BusinessErrorCode.*;
+import static com.gaspar.book.handler.BusinessErrorCode.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice

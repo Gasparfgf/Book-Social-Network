@@ -1,4 +1,4 @@
-package com.gaspar.book.exceptions;
+package com.gaspar.book.handler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

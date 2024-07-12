@@ -1,4 +1,4 @@
-package com.gaspar.book.exceptions;
+package com.gaspar.book.handler;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
