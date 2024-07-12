@@ -1,5 +1,6 @@
 package com.gaspar.book.book;
 
+import com.gaspar.book.file.FileUtils;
 import com.gaspar.book.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,7 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().fullName())
-                // TODO
-                //.cover(b)
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
     public BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history){
