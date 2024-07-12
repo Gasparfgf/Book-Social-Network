@@ -1,9 +1,13 @@
 package com.gaspar.book.book;
 
+import com.gaspar.book.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
+
+import java.util.function.Function;
 
 @Service
 public class BookMapper {
+
     public Book toBook(BookRequest bookRequest) {
         return Book.builder()
                 .id((bookRequest.id()))
@@ -28,6 +32,17 @@ public class BookMapper {
                 .owner(book.getOwner().fullName())
                 // TODO
                 //.cover(b)
+                .build();
+    }
+    public BorrowedBookResponse toBorrowedBookResponse(BookTransactionHistory history){
+        return BorrowedBookResponse.builder()
+                .id(history.getBook().getId())
+                .title(history.getBook().getTitle())
+                .authorName(history.getBook().getAuthorName())
+                .isbn(history.getBook().getIsbn())
+                .rate(history.getBook().getRate())
+                .returned(history.isReturned())
+                .returnApproved(history.isReturnApproved())
                 .build();
     }
 }
