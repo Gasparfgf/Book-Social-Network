@@ -1,12 +1,11 @@
 package com.gaspar.book.book;
 
 import com.gaspar.book.common.PageResponse;
-import com.gaspar.book.exceptions.OperationNotPermittedException.OperationNotPermittedException;
+import com.gaspar.book.exceptions.OperationNotPermittedException;
 import com.gaspar.book.file.FileStorageService;
 import com.gaspar.book.history.BookTransactionHistory;
 import com.gaspar.book.history.BookTransactionalHistoryRepository;
 import com.gaspar.book.user.User;
-import jakarta.mail.Multipart;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
