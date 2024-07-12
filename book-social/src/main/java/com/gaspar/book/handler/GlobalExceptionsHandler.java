@@ -1,6 +1,6 @@
 package com.gaspar.book.handler;
 
-import com.gaspar.book.exceptions.OperationNotPermittedException.OperationNotPermittedException;
+import com.gaspar.book.exceptions.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
