@@ -33,7 +33,13 @@ export class LoginComponent {
         //save token
         this.router.navigate(['api/v1/books']);
       },
-      error: err => {console.log(err)}
+      error: err => {
+        if(err.error.validationErrors){
+          this.errorMsg = err.error.validationErrors;
+        }else {
+          this.errorMsg.push(err.error.errorMsg);
+        }
+      }
     })
   }
 
