@@ -1,6 +1,8 @@
 BOOK SOCIAL NETWORK
 
 
+BACK
+
 I - Diagram
 Book Management
 - Users can create, update and delete books.
@@ -40,8 +42,13 @@ JWT:
 	6. DispatcherServlet -> selects which controller to be activated.
 	7. Controller -> send the response to the user (after making all calculations, etc).
 		
-V - Create: Dependencies -> Docker -> Entity (Service, Repository, User + Token, relashionship between entities etc) -> Security (authorized requests, token generation, valida requests / filters, etc) -> Configuration (password encoding, etc) -> Authentication (email service, valid tokens, activate account, etc) ->  -> Controllers (requests) -> Handling Exceptions -> Application Auditor/Auditing (track by id/email/name, etc to know who did something) -> Save image in the database insteade of saving it in the server
+V - Create: Dependencies -> Docker -> Entity (Service, Repository, User + Token, relashionship between entities etc) -> Security (authorized requests, token generation, valida requests / filters, etc) -> Configuration (password encoding, etc) -> Authentication (email service, valid tokens, activate account, etc) ->  -> Controllers (requests) -> Handling Exceptions -> Application Auditor/Auditing (track by id/email/name, etc to know who did something) -> Save image in the database insteade of saving it in the server -> OpenApi Documentation
 
 When creating User Entity, allways try to implement UserDetails interface, Spring Security will create an object
 
 JwtService - generates, decode, extract information from the token, etc.
+
+
+FRONT
+
+
