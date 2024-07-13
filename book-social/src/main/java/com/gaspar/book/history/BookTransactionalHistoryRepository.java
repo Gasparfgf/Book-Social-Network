@@ -1,12 +1,11 @@
 package com.gaspar.book.history;
 
-import com.gaspar.book.book.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BookTransactionalHistoryRepository extends JpaRepository<BookTransactionHistory, Integer> {
@@ -31,7 +30,7 @@ public interface BookTransactionalHistoryRepository extends JpaRepository<BookTr
         and bookTransactionHistory.book.id = :bookId
         and bookTransactionHistory.returnApproved = false
 """)
-    boolean isAlreadyBorrowedByUser(Integer bookId, Integer id);
+    boolean isAlreadyBorrowedByUser(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
 
     @Query("""
         select transaction
@@ -41,7 +40,7 @@ public interface BookTransactionalHistoryRepository extends JpaRepository<BookTr
         and transaction.returned = false
         and transaction.returnApproved = false
 """)
-    Optional<BookTransactionHistory> findByBookIdAndUserId(Integer bookId, Integer id);
+    Optional<BookTransactionHistory> findByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
 
     @Query("""
         select transaction
@@ -51,5 +50,5 @@ public interface BookTransactionalHistoryRepository extends JpaRepository<BookTr
         and transaction.returned = true
         and transaction.returnApproved = false
 """)
-    Optional<BookTransactionHistory> findByBookIdAndOwnerId(Integer bookId, Integer id);
+    Optional<BookTransactionHistory> findByBookIdAndOwnerId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
 }
