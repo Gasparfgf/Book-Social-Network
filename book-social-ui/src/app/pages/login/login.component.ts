@@ -1,9 +1,10 @@
-import {Component, NgModule} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationRequest} from "../../services/models/authentication-request";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
+import {TokenService} from "../../services/services/token/token.service";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent {
   authRequest: AuthenticationRequest = {email:'', password: ''};
   errorMsg: Array<String> = [];
 
-  constructor(private router: Router, private authService: AuthenticationService) {
+  constructor(private router: Router, private authService: AuthenticationService, private tokenService: TokenService) {
   }
 
   login() {
@@ -30,7 +31,7 @@ export class LoginComponent {
       body: this.authRequest
     }).subscribe({
       next: value => {
-        //save token
+        this.tokenService.token = value.token as string;
         this.router.navigate(['api/v1/books']);
       },
       error: err => {
