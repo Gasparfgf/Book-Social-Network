@@ -36,7 +36,7 @@ public class EmailSendService {
             ) throws MessagingException {
 
         String templateName = (emailTemplateName == null) ?
-                "confirm-email" : emailTemplateName.name();
+                "confirm-email" : emailTemplateName.getFileName();
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(

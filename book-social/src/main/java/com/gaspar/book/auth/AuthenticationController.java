@@ -20,7 +20,7 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.ACCEPTED) //status by default
     //@Valid will accept all required fields and send a message to the final user
     public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
-        authenticationService.registerUser(request);
+        authenticationService.register(request);
         return ResponseEntity.accepted().build();
     }
 

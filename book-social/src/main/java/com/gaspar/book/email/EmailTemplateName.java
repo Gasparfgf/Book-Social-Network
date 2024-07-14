@@ -11,4 +11,8 @@ public enum EmailTemplateName {
     EmailTemplateName(String name){
         this.name = name;
     }
+
+    public String getFileName() {
+        return name;
+    }
 }

@@ -34,10 +34,11 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final EmailSendService emailSendService;
     private final AuthenticationManager authenticationManager;
+
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void registerUser(RegistrationRequest request) throws MessagingException {
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(()-> new IllegalStateException("Role USER not initialized"));
         var user = User.builder()
@@ -58,7 +59,7 @@ public class AuthenticationService {
         var newToken = generateAndSaveActivationToken(user);
         emailSendService.sendEmail(
                 user.getEmail(),
-                user.fullName(),
+                user.getFullName(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
                 activationUrl,
                 newToken,
@@ -68,7 +69,7 @@ public class AuthenticationService {
 
     private String generateAndSaveActivationToken(User user){
         //generate a token
-        String generateToken = generateActivationToken(6);
+        String generateToken = generateActivationToken();
         var token = Token.builder()
                 .token(generateToken)
                 .createdAt(LocalDateTime.now())
@@ -78,16 +79,15 @@ public class AuthenticationService {
         return generateToken;
     }
 
-    private String generateActivationToken(int length){
+    private String generateActivationToken(){
         String characters = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
         SecureRandom secureRandom = new SecureRandom(); //cryptograph the random code
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < 6; i++){
             int randomIndex = secureRandom.nextInt(characters.length()); //0.9
             codeBuilder.append(characters.charAt(randomIndex));
         }
         return codeBuilder.toString();
-
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -98,13 +98,13 @@ public class AuthenticationService {
                 )
         );
         var claims = new HashMap<String, Object>();
-        var user = ((User)auth.getPrincipal());
-        claims.put("fullname", user.fullName());
-        var jwtToken = jwtService.generateToken(claims, user);
+        var user = ((User) auth.getPrincipal());
+        claims.put("fullname", user.getFullName());
+        var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    //@Transactional
+    @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(()-> new RuntimeException("Invalid token"));
