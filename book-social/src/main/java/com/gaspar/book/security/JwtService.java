@@ -54,7 +54,7 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(getSignInKey())
-                .build().parseClaimsJwt(token).getBody();
+                .build().parseClaimsJws(token).getBody();
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails){
